@@ -2,7 +2,6 @@ package oxygen
 
 import (
 	"bytes"
-	"common"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -104,7 +103,7 @@ func (client *HttpClient) prepGetRequest(url *URL) (req *http.Request, err error
 }
 
 func (client *HttpClient) prepEmptyRequest(method string, url *URL) (req *http.Request, err error) {
-	return client.prepRequest(method, url, common.NewEmptyReader())
+	return client.prepRequest(method, url, NewEmptyReader())
 }
 
 func (client *HttpClient) prepPostRequest(url *URL, body io.Reader) (req *http.Request, err error) {

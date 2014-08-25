@@ -101,3 +101,13 @@ func (urlVar *URL) AddStringToQuery(query string) *URL {
 	}
 	return urlVar
 }
+
+func NewEmptyReader() io.Reader {
+	return &EmptyReader{}
+}
+
+type EmptyReader struct{}
+
+func (reader *EmptyReader) Read(p []byte) (n int, err error) {
+	return 0, io.EOF
+}
