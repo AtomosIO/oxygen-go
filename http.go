@@ -1,4 +1,4 @@
-package oxygen
+package oxygengo
 
 import (
 	"bytes"

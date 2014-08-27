@@ -1,4 +1,4 @@
-package oxygen
+package oxygengo
 
 type OxygenResponse struct {
 	Code        int    `json:"code"`
