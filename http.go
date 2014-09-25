@@ -34,6 +34,7 @@ type HttpClient struct {
 	//URL Related data
 	scheme string
 	host   string
+	path   string
 }
 
 type PatchParameters struct {
@@ -61,7 +62,10 @@ func NewHttpClient(endpoint, token string) (client *HttpClient) {
 }
 
 func newHttpClient(endpoint, token string, log bool) (client *HttpClient) {
-	urlURL, _ := url.Parse(endpoint)
+	urlURL, err := url.Parse(endpoint)
+	if err != nil {
+		panic(err)
+	}
 
 	return &HttpClient{
 		token:    token,
@@ -71,6 +75,7 @@ func newHttpClient(endpoint, token string, log bool) (client *HttpClient) {
 
 		scheme: urlURL.Scheme,
 		host:   urlURL.Host,
+		path:   urlURL.Path,
 	}
 }
 

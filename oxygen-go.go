@@ -80,7 +80,7 @@ func (client *HttpClient) NewURL(format string, args ...interface{}) *URL {
 		URL: url.URL{
 			Scheme: client.scheme,
 			Host:   client.host,
-			Path:   fmt.Sprintf(format, args...),
+			Path:   client.path + fmt.Sprintf(format, args...),
 		},
 	}
 }
