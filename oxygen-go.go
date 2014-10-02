@@ -1,4 +1,4 @@
-package oxygengo
+package oxygen
 
 import (
 	//"bufio"
