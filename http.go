@@ -252,7 +252,7 @@ func (client *HttpClient) write(url *URL, offset int64, reader io.Reader) (attr 
 
 	// Do request
 	attr, body, err := client.doRequest(req)
-
+	//fmt.Println(err)
 	// Close body reader
 	if body != nil {
 		body.Close()
@@ -311,7 +311,7 @@ func (client *HttpClient) doRequest(req *http.Request) (attr *NodeAttributes, re
 
 	resp, err := client.client.Do(req)
 	if err != nil {
-		client.Logf("Failed Do: %s\n", err)
+		client.Logf("Failed Do: %s\n%+v\n", err, req)
 		if resp != nil && resp.Body != nil {
 			resp.Body.Close()
 		}
@@ -331,6 +331,7 @@ func (client *HttpClient) doRequest(req *http.Request) (attr *NodeAttributes, re
 
 	// Parse headers for node attributes
 	attr, err = client.parseNodeAttributes(resp)
+	//fmt.Println("node attr", attr, err)
 	if err != nil {
 		client.Logf("Failed ParseNodeAttributesf: %s", err)
 		if resp.Body != nil {
