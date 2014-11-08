@@ -310,6 +310,7 @@ func (client *HttpClient) doRequest(req *http.Request) (attr *NodeAttributes, re
 	}
 
 	resp, err := client.client.Do(req)
+
 	if err != nil {
 		client.Logf("Failed Do: %s\n%+v\n", err, req)
 		if resp != nil && resp.Body != nil {
