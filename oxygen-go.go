@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"net/url"
+	"strings"
 )
 
 // Clients must be safe to access from concurrent go routines
@@ -76,11 +77,20 @@ type URL struct {
 }
 
 func (client *HttpClient) NewURL(format string, args ...interface{}) *URL {
+	pathQuery := client.path + fmt.Sprintf(format, args...)
+	pathQuerySplit := strings.SplitN(pathQuery, "?", 2)
+	path := pathQuerySplit[0]
+	query := ""
+	if len(pathQuerySplit) == 2 {
+		query = pathQuerySplit[1]
+	}
 	return &URL{
+		//URL: url.NewURLfmt.Sprintf(
 		URL: url.URL{
-			Scheme: client.scheme,
-			Host:   client.host,
-			Path:   client.path + fmt.Sprintf(format, args...),
+			Scheme:   client.scheme,
+			Host:     client.host,
+			Path:     path,
+			RawQuery: query,
 		},
 	}
 }

@@ -125,13 +125,14 @@ func (client *HttpClient) prepRequest(method string, urlString *URL, body io.Rea
 		return nil, err
 	}
 
-	if client.token != "" {
+	req.Header.Set("Authorization", client.token)
+	/*if client.token != "" {
 		tokenCookie := &http.Cookie{
 			Name:  "token",
 			Value: client.token,
 		}
 		req.AddCookie(tokenCookie)
-	}
+	}*/
 
 	//client.Logf("HttpClient %s -> %s\n", method, url)
 
@@ -252,7 +253,7 @@ func (client *HttpClient) write(url *URL, offset int64, reader io.Reader) (attr 
 
 	// Do request
 	attr, body, err := client.doRequest(req)
-	//fmt.Println(err)
+
 	// Close body reader
 	if body != nil {
 		body.Close()
@@ -303,19 +304,17 @@ func (client *HttpClient) delete(url *URL) (err error) {
 func (client *HttpClient) doRequest(req *http.Request) (attr *NodeAttributes, readCloser io.ReadCloser, err error) {
 	// Do request
 	if client.log {
-		client.Logf("%+v\n", req)
 		body, _ := ioutil.ReadAll(req.Body)
-		client.Logf("%s\n", body)
 		req.Body = ioutil.NopCloser(bytes.NewReader(body))
 	}
 
 	resp, err := client.client.Do(req)
-
 	if err != nil {
 		client.Logf("Failed Do: %s\n%+v\n", err, req)
 		if resp != nil && resp.Body != nil {
 			resp.Body.Close()
 		}
+
 		return nil, nil, err
 	}
 
